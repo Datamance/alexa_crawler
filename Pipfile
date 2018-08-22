@@ -16,6 +16,7 @@ cssselect = "*"
 white = "*"
 black = "*"
 "autopep8" = "*"
+importanize = "*"
 
 [requires]
 python_version = "3.7"

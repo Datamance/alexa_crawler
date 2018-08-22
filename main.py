@@ -8,19 +8,20 @@ domain, its Alexa rank, and the full URL path to the favicon.
 
 __author__ = "Rico Rodriguez"
 
-import zipfile
-import aiohttp
-from aiohttp.client_exceptions import ClientConnectorError
 import asyncio
+import csv
 import io
 import os
-import requests
-import csv
+import zipfile
 from collections import Counter
-from lxml import etree
 from pprint import pprint
 from urllib.parse import urlparse
+
+import aiohttp
+import requests
+from aiohttp.client_exceptions import ClientConnectorError
 from bs4 import BeautifulSoup
+from lxml import etree
 
 
 TWO_HUNDRED_THOUSAND = 200 * 1000
