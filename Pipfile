@@ -6,8 +6,16 @@ name = "pypi"
 [packages]
 aiohttp = "*"
 cchardet = "*"
+requests = "*"
+lxml = "*"
+aiofile = "*"
+cssselect = "*"
+"bs4" = "*"
 
 [dev-packages]
+white = "*"
+black = "*"
+"autopep8" = "*"
 
 [requires]
 python_version = "3.7"
