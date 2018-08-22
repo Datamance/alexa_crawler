@@ -24,7 +24,7 @@ from bs4 import BeautifulSoup
 
 
 TWO_HUNDRED_THOUSAND = 200 * 1000
-DEFAULT_BATCH = TWO_HUNDRED_THOUSAND // 1000   # 1000 ClientSessions, 200 each.
+DEFAULT_BATCH = TWO_HUNDRED_THOUSAND // 1000  # 1000 ClientSessions, 200 each.
 ALEXA_TOP_MILLION_URL = "http://s3.amazonaws.com/alexa-static/top-1m.csv.zip"
 DEFAULT_CSV = "top_200K_with_favicon_urls.csv"
 
@@ -60,8 +60,9 @@ def get_ranks_and_domains(total_number, batch_size):
     chunks = []
 
     while pairs:
-        chunks.append([pairs.pop().decode("utf-8").split(",")
-                       for _ in range(batch_size)])
+        chunks.append(
+            [pairs.pop().decode("utf-8").split(",") for _ in range(batch_size)]
+        )
 
     return chunks
 
@@ -76,26 +77,35 @@ def get_favicon(html, url):
     soup = BeautifulSoup(html, features="lxml")
 
     # Do we have a link element with the icon?
-    icon_link = soup.find('link', rel='icon')
-    if icon_link and icon_link.has_attr('href'):
+    icon_link = soup.find("link", rel="icon")
+    if icon_link and icon_link.has_attr("href"):
 
-        favicon_url = icon_link['href']
+        favicon_url = icon_link["href"]
 
         # Sometimes we get a protocol-relative path
-        if favicon_url.startswith('//'):
+        if favicon_url.startswith("//"):
             parsed_uri = urlparse(url)
-            favicon_url = parsed_uri.scheme + ':' + favicon_url
+            favicon_url = parsed_uri.scheme + ":" + favicon_url
 
         # An absolute path relative to the domain
-        elif favicon_url.startswith('/'):
-            favicon_url = parsed_site_uri.scheme + '://' + \
-                parsed_site_uri.netloc + favicon_url
+        elif favicon_url.startswith("/"):
+            favicon_url = (
+                parsed_site_uri.scheme
+                + "://"
+                + parsed_site_uri.netloc
+                + favicon_url
+            )
 
         # A relative path favicon
-        elif not favicon_url.startswith('http'):
+        elif not favicon_url.startswith("http"):
             path, filename = os.path.split(parsed_site_uri.path)
-            favicon_url = parsed_site_uri.scheme + '://' + \
-                parsed_site_uri.netloc + '/' + os.path.join(path, favicon_url)
+            favicon_url = (
+                parsed_site_uri.scheme
+                + "://"
+                + parsed_site_uri.netloc
+                + "/"
+                + os.path.join(path, favicon_url)
+            )
 
         # We found a favicon in the markup and we've formatted the URL
         # so that it can be loaded independently of the rest of the page
@@ -108,7 +118,8 @@ def get_favicon(html, url):
 async def _fetch_html(session, url):
     """Helper method to fetch the html content."""
     async with session.get(
-            url, timeout=TEN_SECONDS_TIMEOUT, ssl=False) as response:
+        url, timeout=TEN_SECONDS_TIMEOUT, ssl=False
+    ) as response:
         if response.status == 200:
             return await response.read()
         else:
@@ -120,7 +131,8 @@ async def _try_get_favicon(session, url):
     """Blind attempt at getting the favicon."""
     maybe_favicon = url.rstrip("/") + "/favicon.ico"
     async with session.get(
-            maybe_favicon, timeout=TEN_SECONDS_TIMEOUT, ssl=False) as response:
+        maybe_favicon, timeout=TEN_SECONDS_TIMEOUT, ssl=False
+    ) as response:
         if response.status == 200:
             body_bytes = await response.content.read()
             # Is there actually something here?
@@ -176,7 +188,7 @@ async def get_all(chunks_of_work, csv_writer):
             pprint(
                 {
                     "Failures: ": ERROR_COUNTER.most_common(),
-                    "Successes: ": len(success_batch)
+                    "Successes: ": len(success_batch),
                 }
             )
 
@@ -187,8 +199,11 @@ async def get_all(chunks_of_work, csv_writer):
     return all_results
 
 
-def main(csv_file_path=DEFAULT_CSV, total_number=TWO_HUNDRED_THOUSAND,
-         batch_size=DEFAULT_BATCH):
+def main(
+    csv_file_path=DEFAULT_CSV,
+    total_number=TWO_HUNDRED_THOUSAND,
+    batch_size=DEFAULT_BATCH,
+):
     """Main execution context, controls event loop."""
     # 1) Set up CSV file.
     csv_file = open(csv_file_path, "w", batch_size)
