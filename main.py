@@ -12,6 +12,7 @@ import asyncio
 import csv
 import io
 import os
+import time
 import zipfile
 from collections import Counter
 from pprint import pprint
@@ -25,7 +26,7 @@ from lxml import etree
 
 
 TWO_HUNDRED_THOUSAND = 200 * 1000
-DEFAULT_BATCH = TWO_HUNDRED_THOUSAND // 1000  # 1000 ClientSessions, 200 each.
+DEFAULT_BATCH = TWO_HUNDRED_THOUSAND // 1000  # 2000 ClientSessions, 100 each.
 ALEXA_TOP_MILLION_URL = "http://s3.amazonaws.com/alexa-static/top-1m.csv.zip"
 DEFAULT_CSV = "top_200K_with_favicon_urls.csv"
 
@@ -33,12 +34,16 @@ HTML_PARSER = etree.HTMLParser()
 
 # løøp, bröther
 EVENT_LOOP = asyncio.get_event_loop()
+ONE_MINUTE_TIMEOUT = aiohttp.ClientTimeout(60)
+FORTYFIVE_SECONDS_TIMEOUT = aiohttp.ClientTimeout(45)
 THIRTY_SECONDS_TIMEOUT = aiohttp.ClientTimeout(30)
 TEN_SECONDS_TIMEOUT = aiohttp.ClientTimeout(10)
+FIVE_SECONDS_TIMEOUT = aiohttp.ClientTimeout(5)
+TCP_CONNECTOR = aiohttp.TCPConnector(limit=100)
 
 # # Set up Queues
-# FAVICON_GETTER_QUEUE = asyncio.Queue(loop=EVENT_LOOP)
-# CSV_WRITER_QUEUE = asyncio.Queue(loop=EVENT_LOOP)
+HTML_FETCHER_QUEUE = asyncio.Queue(loop=EVENT_LOOP)
+CSV_WRITER_QUEUE = asyncio.Queue(loop=EVENT_LOOP)
 
 
 ERROR_COUNTER = Counter()
@@ -116,11 +121,9 @@ def get_favicon(html, url):
     return None
 
 
-async def _fetch_html(session, url):
+async def _fetch_html(session, url, timeout=THIRTY_SECONDS_TIMEOUT):
     """Helper method to fetch the html content."""
-    async with session.get(
-        url, timeout=TEN_SECONDS_TIMEOUT, ssl=False
-    ) as response:
+    async with session.get(url, timeout=timeout, ssl=False) as response:
         if response.status == 200:
             return await response.read()
         else:
@@ -128,11 +131,11 @@ async def _fetch_html(session, url):
             return None
 
 
-async def _try_get_favicon(session, url):
+async def _try_get_favicon(session, url, timeout=THIRTY_SECONDS_TIMEOUT):
     """Blind attempt at getting the favicon."""
     maybe_favicon = url.rstrip("/") + "/favicon.ico"
     async with session.get(
-        maybe_favicon, timeout=TEN_SECONDS_TIMEOUT, ssl=False
+        maybe_favicon, timeout=timeout, ssl=False
     ) as response:
         if response.status == 200:
             body_bytes = await response.content.read()
@@ -140,6 +143,38 @@ async def _try_get_favicon(session, url):
             return maybe_favicon if len(body_bytes) > 0 else None
         else:
             return None
+
+
+async def write_rows(csv_writer, total=TWO_HUNDRED_THOUSAND):
+    """Coro for writing CSV stuff."""
+    for _ in range(total):
+        new_row = await CSV_WRITER_QUEUE.get()
+        csv_writer.writerow(new_row)
+
+
+async def fetch_html(session, total=TWO_HUNDRED_THOUSAND):
+    """Coro for processing html, chains to write_rows"""
+    for _ in range(total):
+        url, rank = await HTML_FETCHER_QUEUE.get()
+        # Otherwise, we have to dive into the HTML.
+        try:
+            text_content = await _fetch_html(session, url)
+        except Exception as e:
+            ERROR_COUNTER.update([type(e)])
+            continue
+
+        if not text_content:
+            ERROR_COUNTER.update(["NO TEXT CONTENT"])
+            continue
+
+        favicon_url = get_favicon(text_content, url)
+
+        if not favicon_url:
+            ERROR_COUNTER.update(["NO FAVICON URL"])
+            continue
+
+        await CSV_WRITER_QUEUE.put((url, rank, favicon_url))
+        # return (url, rank, favicon_url)
 
 
 async def get_row(session, rank, domain):
@@ -150,36 +185,25 @@ async def get_row(session, rank, domain):
     try:
         favicon_url = await _try_get_favicon(session, url)
         if favicon_url:
+            await CSV_WRITER_QUEUE.put((url, rank, favicon_url))
             return (url, rank, favicon_url)
     except Exception as e:
-        pass  # We don't really care.
-
-    # Otherwise, we have to dive into the HTML.
-    try:
-        text_content = await _fetch_html(session, url)
-    except Exception as e:
-        ERROR_COUNTER.update([type(e)])
-        return None
-
-    if not text_content:
-        ERROR_COUNTER.update(["NO TEXT CONTENT"])
-        return None
-
-    favicon_url = get_favicon(text_content, url)
-
-    if not favicon_url:
-        ERROR_COUNTER.update(["NO FAVICON URL"])
-        return None
-
-    return (url, rank, favicon_url)
+        await HTML_FETCHER_QUEUE.put((url, rank))
 
 
 async def get_all(chunks_of_work, csv_writer):
     """Main doer of work."""
     all_results = []
 
-    async with aiohttp.ClientSession(loop=EVENT_LOOP) as session:
-        for rank_domain_pairs in chunks_of_work:
+    async with aiohttp.ClientSession(
+            loop=EVENT_LOOP,
+            connector=aiohttp.TCPConnector(limit=200)) as session:
+
+        EVENT_LOOP.create_task(fetch_html(session))
+
+        for batch_num, rank_domain_pairs in enumerate(chunks_of_work):
+            print(f"BATCH {batch_num} START")
+            start = time.perf_counter()
             rows = await asyncio.gather(
                 *[get_row(session, *pair) for pair in rank_domain_pairs]
             )
@@ -193,11 +217,9 @@ async def get_all(chunks_of_work, csv_writer):
                 }
             )
 
-            csv_writer.writerows(success_batch)
+            print(f"Batch {batch_num} finished in {time.perf_counter()-start}")
 
-            all_results.extend(success_batch)
-
-    return all_results
+    return 0
 
 
 def main(
@@ -207,12 +229,15 @@ def main(
 ):
     """Main execution context, controls event loop."""
     # 1) Set up CSV file.
-    csv_file = open(csv_file_path, "w", batch_size)
+    csv_file = open(csv_file_path, "w", 5)  # batch_size)
     csv_writer = csv.writer(csv_file)
     csv_writer.writerow(("domain", "rank", "favicon_url"))
 
+    EVENT_LOOP.create_task(write_rows(csv_writer))
+
     # 2) Get work chunked up,
     chunks_of_work = get_ranks_and_domains(total_number, batch_size)
+    print(f"{len(chunks_of_work)} chunks @ {len(chunks_of_work[0])} a pop")
 
     try:
         EVENT_LOOP.run_until_complete(get_all(chunks_of_work, csv_writer))
