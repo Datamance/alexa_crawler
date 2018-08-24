@@ -10,14 +10,14 @@ __author__ = "Rico Rodriguez"
 
 import asyncio
 import csv
+import functools
 import io
 import os
+import time
 import zipfile
 from collections import Counter
 from pprint import pprint
 from urllib.parse import urlparse
-import functools
-import time
 
 import aiohttp
 import requests
@@ -151,8 +151,8 @@ async def write_to_csv(csv_writer):
             break
         else:
             counter["success"] += 1
-            total = counter['success'] + counter['fail']
-            percent = (counter['success'] / total) * 100
+            total = counter["success"] + counter["fail"]
+            percent = (counter["success"] / total) * 100
             print(f"pcnt: {percent:.2f}, total: {total}")
             pprint(counter.most_common())
             csv_writer.writerow(row)
@@ -200,7 +200,8 @@ async def run(pairs):
     one_thousand = aiohttp.TCPConnector(limit=300)
 
     async with aiohttp.ClientSession(
-            loop=EVENT_LOOP, connector=one_thousand) as session:
+        loop=EVENT_LOOP, connector=one_thousand
+    ) as session:
         rows = await asyncio.gather(
             *[get_row(semaphore, session, *pair) for pair in pairs]
         )
@@ -212,10 +213,7 @@ async def run(pairs):
     return 0
 
 
-def main(
-    csv_file_path=DEFAULT_CSV,
-    total_number=TWO_HUNDRED_THOUSAND
-):
+def main(csv_file_path=DEFAULT_CSV, total_number=TWO_HUNDRED_THOUSAND):
     """Main execution context, controls event loop."""
     # 1) Set up CSV file.
     csv_file = open(csv_file_path, "w", 1000)
