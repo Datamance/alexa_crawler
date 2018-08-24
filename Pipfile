@@ -11,6 +11,7 @@ lxml = "*"
 aiofile = "*"
 cssselect = "*"
 "bs4" = "*"
+uvloop = "*"
 
 [dev-packages]
 white = "*"
