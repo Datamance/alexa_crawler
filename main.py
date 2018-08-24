@@ -76,6 +76,9 @@ def get_favicon(html, url):
 
     tree = etree.fromstring(html, parser=HTML_PARSER)
 
+    if not tree:
+        return None
+
     # Do we have a link element with the icon?
     possible_favicons = []
     for link in tree.cssselect("link"):
