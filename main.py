@@ -11,6 +11,7 @@ __author__ = "Rico Rodriguez"
 import asyncio
 import csv
 import io
+import itertools
 import logging
 import os
 import time
@@ -41,6 +42,7 @@ HTML_PARSER = etree.HTMLParser()
 # Løøp, bröther.
 EVENT_LOOP = asyncio.get_event_loop()
 TEN_MINUTE_TIMEOUT = aiohttp.ClientTimeout(600)
+THREE_MINUTE_TIMEOUT = aiohttp.ClientTimeout(180)
 ONE_MINUTE_TIMEOUT = aiohttp.ClientTimeout(60)
 THIRTY_SECONDS_TIMEOUT = aiohttp.ClientTimeout(30)
 TEN_SECONDS_TIMEOUT = aiohttp.ClientTimeout(10)
@@ -139,7 +141,7 @@ async def _fetch_html(
     """
     async with semaphore:
         async with session.get(
-            url, timeout=TEN_MINUTE_TIMEOUT, ssl=False
+            url, timeout=ONE_MINUTE_TIMEOUT, ssl=False
         ) as response:
             if response.status == 200:
                 return await response.read()
@@ -244,7 +246,7 @@ async def get_row(
     await CSV_WRITER_QUEUE.put((url, rank, favicon_url))
 
 
-async def consume(pairs: Iterable[Tuple[str, str]]):
+async def consume(chunked_pairs: Iterable[Iterable[Tuple[str, str]]]):
     """Consumes pairs of ranks and domains.
 
     Args:
@@ -257,21 +259,40 @@ async def consume(pairs: Iterable[Tuple[str, str]]):
 
     # TODO(rico): Figure out why these get finicky when put into global scope?
     semaphore = asyncio.Semaphore(1000)
-    tcp_connector = aiohttp.TCPConnector(limit=300)
 
-    async with aiohttp.ClientSession(
-        loop=EVENT_LOOP, connector=tcp_connector
-    ) as session:
-        rows = await asyncio.gather(
-            *[get_row(semaphore, session, *pair) for pair in pairs]
-        )
+    for pairs in chunked_pairs:
+        async with aiohttp.ClientSession(
+            loop=EVENT_LOOP, connector=aiohttp.TCPConnector(limit=75)
+        ) as session:
+            rows = await asyncio.gather(
+                *[get_row(semaphore, session, *pair) for pair in pairs]
+            )
 
-        # successes = [row for row in rows if row is not None]
+            # successes = [row for row in rows if row is not None]
 
-    await CSV_WRITER_QUEUE.put(None)
-    CSV_WRITER_QUEUE.task_done()
+        await CSV_WRITER_QUEUE.put(None)
+        CSV_WRITER_QUEUE.task_done()
 
     return 0
+
+
+def chunked(iterable: Iterable, chunk_size: int = 1000):
+    """Generator to get things chunked.
+
+    Args:
+        iterable: Iterable. Stuff that we wanna chunk up.
+
+    Yields:
+        An iterable.
+    """
+    to_chunk = iter(iterable)
+
+    while True:
+        chunk = tuple(itertools.islice(to_chunk, chunk_size))
+        if chunk:
+            yield chunk
+        else:
+            return []
 
 
 def main(
@@ -297,10 +318,11 @@ def main(
     # 3) Run Event Loop.
     try:
         EVENT_LOOP.create_task(write_to_csv(csv_writer))
-        EVENT_LOOP.run_until_complete(consume(pairs))
+        EVENT_LOOP.run_until_complete(consume(chunked(pairs)))
     except Exception as e:
         # Note: I would never do bare exception handling in a real application,
         # This is just so we can see what this quick-and-dirty script does.
+        CSV_WRITER_QUEUE.put_nowait(None)
         logger.error(f"***FATAL ERROR***: {e}")
         asyncio.gather(*asyncio.Task.all_tasks()).cancel()
     finally:
