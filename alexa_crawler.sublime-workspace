@@ -1,0 +1,868 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Client",
+				"ClientTimeout"
+			],
+			[
+				"start",
+				"start_time"
+			],
+			[
+				"ERROR",
+				"ERROR_COUNTER"
+			],
+			[
+				"CSV",
+				"CSV_WRITER_QUEUE\tstatement"
+			],
+			[
+				"process",
+				"process_html\tfunction"
+			],
+			[
+				"HTML",
+				"HTML_PROCESSOR_QUEUE\tstatement"
+			],
+			[
+				"CS",
+				"CSV_WRITER_QUEUE\tstatement"
+			],
+			[
+				"TCP",
+				"TCP_CONNECTOR\tstatement"
+			],
+			[
+				"finish",
+				"finish_await"
+			],
+			[
+				"chunk",
+				"chunks_of_work"
+			],
+			[
+				"chun",
+				"chunks_of_work"
+			],
+			[
+				"favicon",
+				"favicon_url\tstatement"
+			],
+			[
+				"favi",
+				"favicon_url\tstatement"
+			],
+			[
+				"rel",
+				"relative_favicon_url\tstatement"
+			],
+			[
+				"TOT",
+				"TWO_HUNDRED_THOUSAND\tstatement"
+			],
+			[
+				"csv",
+				"csv_writer\tparam"
+			],
+			[
+				"get_",
+				"get_row_batches"
+			],
+			[
+				"text",
+				"text_content\tstatement"
+			],
+			[
+				"get",
+				"get_favicon_url"
+			],
+			[
+				"DEFAULT",
+				"DEFAULT_CSV\tstatement"
+			],
+			[
+				"LOAD",
+				"load_csv_writer_queue\tfunction"
+			],
+			[
+				"load",
+				"load_csv_writer_queue\tfunction"
+			],
+			[
+				"ran",
+				"gen_ranks_and_domains"
+			],
+			[
+				"favico",
+				"favicon_url"
+			],
+			[
+				"Ind",
+				"IndexError\tclass"
+			],
+			[
+				"rank",
+				"rank_and_domain_generator\tparam"
+			],
+			[
+				"write",
+				"write_favicon_urls_to_csv\tfunction"
+			],
+			[
+				"max",
+				"max_num_prizes\tfunction"
+			],
+			[
+				"current",
+				"current_inclusive_end"
+			],
+			[
+				"curren",
+				"current_segment\tstatement"
+			],
+			[
+				"currne",
+				"current_inclusive_end\tstatement"
+			],
+			[
+				"segments",
+				"segments_length\tstatement"
+			],
+			[
+				"seg",
+				"seg_idx\tstatement"
+			],
+			[
+				"price_",
+				"prices_and_weights"
+			],
+			[
+				"pirce",
+				"prices_and_weights\tparam"
+			],
+			[
+				"price",
+				"prices_and_weights\tparam"
+			],
+			[
+				"pisano",
+				"pisanoLength"
+			],
+			[
+				"pisan",
+				"pisano_length"
+			],
+			[
+				"pis",
+				"pisano_period"
+			],
+			[
+				"n",
+				"n_minus_two"
+			],
+			[
+				"n_minus",
+				"n_minus_one"
+			],
+			[
+				"pisa",
+				"pisano_length"
+			],
+			[
+				"perio",
+				"period_len"
+			],
+			[
+				"sum",
+				"sum_to_n\tstatement"
+			],
+			[
+				"fib_",
+				"fib_squared\tstatement"
+			],
+			[
+				"fib",
+				"fib_squared\tstatement"
+			],
+			[
+				"nai",
+				"naive_partial_sum"
+			],
+			[
+				"period",
+				"period_len\tstatement"
+			],
+			[
+				"one",
+				"one_behind\tstatement"
+			],
+			[
+				"maximum",
+				"maximumValue"
+			],
+			[
+				"maxim",
+				"maximumIdx"
+			],
+			[
+				"cure",
+				"currentIdx"
+			],
+			[
+				"highest",
+				"highestIdx"
+			],
+			[
+				"String",
+				"StringTokenizer"
+			],
+			[
+				"second",
+				"second_highest_ptr"
+			],
+			[
+				"maximu",
+				"maximum_ptr"
+			],
+			[
+				"secon",
+				"second_highest_ptr"
+			],
+			[
+				"idx",
+				"idx_second_largest\tstatement"
+			],
+			[
+				"draw_networkx_edges",
+				"draw_networkx_edge_labels\tfunction"
+			],
+			[
+				"next",
+				"next_state"
+			],
+			[
+				"A",
+				"ABCMeta\tclass"
+			],
+			[
+				"sip",
+				"stippled_underline"
+			],
+			[
+				"squi",
+				"squiggly_underline"
+			],
+			[
+				"abstract",
+				"abstractmethod\tfunction"
+			],
+			[
+				"cpu",
+				"cpu_count\tfunction"
+			],
+			[
+				"ex",
+				"expit"
+			],
+			[
+				"neural",
+				"neural_network"
+			],
+			[
+				"noddef",
+				"nodedef_seq"
+			],
+			[
+				"nodedef",
+				"nodedef"
+			],
+			[
+				"activ",
+				"activation_function"
+			],
+			[
+				"input_",
+				"input_column"
+			],
+			[
+				"training",
+				"training_epochs"
+			],
+			[
+				"OUTPUT",
+				"FINAL_OUTPUT"
+			],
+			[
+				"weight",
+				"_weight_matrix"
+			],
+			[
+				"_get",
+				"_get_connection_matrix\tfunction"
+			],
+			[
+				"nodd",
+				"nodedef_seq\tparam"
+			],
+			[
+				"noded",
+				"nodedef_seq\tparam"
+			],
+			[
+				"node",
+				"nodedef_seq"
+			],
+			[
+				"max_p",
+				"max_pool_2x2\tfunction"
+			],
+			[
+				"bias",
+				"bias_convolution_1\tstatement"
+			],
+			[
+				"weig",
+				"weight_convolution_1\tstatement"
+			],
+			[
+				"_train",
+				"_train_with_args_tuple\tfunction"
+			],
+			[
+				"floa",
+				"float_range_args\tparam"
+			],
+			[
+				"hidden",
+				"hidden_bounds\tparam"
+			],
+			[
+				"epoch",
+				"epochs_override\tparam"
+			],
+			[
+				"MNIST_T",
+				"MNIST_TRAINING_URL\tstatement"
+			],
+			[
+				"neura",
+				"neural_network\tstatement"
+			],
+			[
+				"neur",
+				"neural_network"
+			],
+			[
+				"range",
+				"range_epochs\tstatement"
+			],
+			[
+				"MNIS",
+				"MNIST_TRAINING_URL\tstatement"
+			],
+			[
+				"traini",
+				"training_url\tstatement"
+			],
+			[
+				"training_",
+				"training_data"
+			],
+			[
+				"py",
+				"pyplot\tmodule"
+			],
+			[
+				"learning",
+				"_learning_rate"
+			],
+			[
+				"hidde",
+				"hidden_outputs"
+			],
+			[
+				"target",
+				"target_list\tparam"
+			],
+			[
+				"Neur",
+				"NeuralNetwork\tclass"
+			],
+			[
+				"wig",
+				"weights_dict\tstatement"
+			],
+			[
+				"activa",
+				"activation_function\tstatement"
+			],
+			[
+				"weights",
+				"weights_dict\tstatement"
+			],
+			[
+				"Base",
+				"BaseEntityMixin\tclass"
+			],
+			[
+				"Unicode",
+				"UnicodeText\tclass"
+			],
+			[
+				"PA",
+				"PasswordType\tclass"
+			],
+			[
+				"sql",
+				"sqlalchemy_utils\tmodule"
+			],
+			[
+				"sqlalche",
+				"sqlalchemy_jsonapi"
+			],
+			[
+				"Flask",
+				"FlaskJSONAPI"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "main.py",
+			"settings":
+			{
+				"buffer_size": 10003,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "worker.py",
+			"settings":
+			{
+				"buffer_size": 2484,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "top_200K_with_favicon_urls.csv",
+			"settings":
+			{
+				"buffer_size": 2086099,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 119.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"term",
+				"Terminal View: Open Bash Terminal"
+			],
+			[
+				"termi",
+				"Terminal View: Open Bash Terminal"
+			],
+			[
+				"termina",
+				"Terminal View: Open Bash Terminal"
+			],
+			[
+				"terminal",
+				"Terminal View: Open Bash Terminal"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"package",
+				"Package Control: Remove Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"gitpush",
+				"Git: Push Current Branch"
+			],
+			[
+				"git rem",
+				"Git: Remote"
+			],
+			[
+				"gar",
+				"Git: Add Remote"
+			],
+			[
+				"Gar",
+				"Git: Add Remote"
+			],
+			[
+				"git: ",
+				"Git: Status"
+			],
+			[
+				"git: stat",
+				"Git: Status"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 444.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/ricorodriguez/Desktop/git/alexa_crawler"
+	],
+	"file_history":
+	[
+		"/Users/ricorodriguez/Desktop/git/alexa_crawler/results.csv",
+		"/Users/ricorodriguez/Desktop/git/alexa_crawler/top_200K_with_favicon_urls.csv",
+		"/Users/ricorodriguez/.ssh/known_hosts",
+		"/Users/ricorodriguez/.ssh/known_hosts.old",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_2/python/last_digit_sum_squares.py",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_1/max_pairwise_product.cpp",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_2/c/last_digit_sum_squares_fib.c",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_2/cpp/last_digit_sum_squares.cpp",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_1/MaxPairwiseProduct.java",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_2/java/LastDigitSumOfFibonacciSquares.java",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_1/max_pairwise_product.c",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/week1_programming_challenges/2_maximum_pairwise_product/MaxPairwiseProduct.java",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_1/max_pairwise_product.py",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_2/python/fib.py",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_2/python/last_digit_sum_fib.py",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_2/python/partial_sum_last_digit_fib.py",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_2/python/fib_last_digit.py",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_2/python/fib_again.py",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_2/python/gcd.py",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_2/python/lcm.py",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_2/fib.py",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_2/gcd.py",
+		"/Users/ricorodriguez/Library/Application Support/Sublime Text 3/Packages/Javatar/Javatar.sublime-settings",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/week1_programming_challenges/1_sum_of_two_digits/APlusB.py",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_1/max_pairwise.c",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/week1_programming_challenges/2_maximum_pairwise_product/max_pairwise_product.py",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_1/max_pairwise_simple.py",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/my_solutions/week_1/sum_of_two_digits.py",
+		"/Users/ricorodriguez/Desktop/COURSERA STUFF/Algorithms and Data Structures/weekly_assignments/week1_programming_challenges/2_maximum_pairwise_product/by_learners/max_pairwise_product.rb",
+		"/Users/ricorodriguez/Library/Application Support/Sublime Text 3/Packages/TerminalView/README.md",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/powerline/bindings/bash/powerline.sh",
+		"/Users/ricorodriguez/.bash-powerline.sh",
+		"/Users/ricorodriguez/.bashrc",
+		"/Users/ricorodriguez/Development/neuromaton/terminal.glue",
+		"/Users/ricorodriguez/Development/Neuromaton/neuromaton/__init__.py",
+		"/Users/ricorodriguez/Development/neuromaton/neuromaton/automata/transition_function.py",
+		"/Users/ricorodriguez/Development/neuromaton/profiling.py",
+		"/Users/ricorodriguez/Library/Application Support/Sublime Text 3/Packages/User/Anaconda.sublime-settings",
+		"/Users/ricorodriguez/Library/Application Support/Sublime Text 3/Packages/Anaconda/Anaconda.sublime-settings",
+		"/Users/ricorodriguez/Development/neuromaton/neuromaton.py",
+		"/Users/ricorodriguez/Development/neuromaton/finite_automaton.py",
+		"/Users/ricorodriguez/Development/neuromaton/neuromaton.sublime-project",
+		"/Users/ricorodriguez/Development/vgdl/examples/gridphysics/zelda.py",
+		"/Users/ricorodriguez/Development/vgdl/vgdl/agent.py",
+		"/Users/ricorodriguez/Development/vgdl/vgdl/agent_worker.py",
+		"/Users/ricorodriguez/Development/vgdl/vgdl/agent_master.py",
+		"/Users/ricorodriguez/Development/vgdl/vgdl/agent_multimaster.py",
+		"/Users/ricorodriguez/Development/vgdl/vgdl/agents.py",
+		"/Users/ricorodriguez/Desktop/theory_template.py",
+		"/Users/ricorodriguez/Desktop/git/machine_learning/penalized_linear_regression.py",
+		"/Users/ricorodriguez/Desktop/git/powerline-shell/config.py",
+		"/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/site-packages/scripts/sandman2ctl.py",
+		"/Users/ricorodriguez/Desktop/git/machine_learning/.git/config",
+		"/Users/ricorodriguez/Desktop/git/machine_learning/.gitignore",
+		"/Users/ricorodriguez/Desktop/git/python-cookbook/src/6/reading_and_writing_binary_arrays_of_structures/readrecords.py",
+		"/Users/ricorodriguez/Desktop/git/python-cookbook/src/12/using_generators_as_an_alternative_to_threads/simple.py",
+		"/Users/ricorodriguez/Desktop/git/python-cookbook/src/12/using_generators_as_an_alternative_to_threads/netsched.py",
+		"/Users/ricorodriguez/Desktop/git/python-cookbook/src/12/using_generators_as_an_alternative_to_threads/actorsched.py",
+		"/Users/ricorodriguez/Desktop/git/machine_learning/tensor_examples.py",
+		"/Users/ricorodriguez/Desktop/git/machine_learning/multiprocessing_nn.py",
+		"/Users/ricorodriguez/Desktop/git/python-cookbook/src/6/reading_and_writing_csv_data/stocks.csv",
+		"/Users/ricorodriguez/Desktop/git/open_government/requirements.in",
+		"/Library/Frameworks/Python.framework/Versions/3.4/lib/python3.4/site-packages/sqlalchemy_utils/types/email.py",
+		"/Users/ricorodriguez/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/ricorodriguez/Desktop/git/open_government/requirements.txt",
+		"/Users/ricorodriguez/Desktop/git/open_government/.yo-rc.json",
+		"/Users/ricorodriguez/Library/Application Support/Sublime Text 3/Packages/User/Python3.sublime-settings",
+		"/Users/ricorodriguez/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/Users/ricorodriguez/Library/Application Support/Sublime Text 3/Packages/User/JSON.sublime-settings",
+		"/Users/ricorodriguez/Desktop/git/open_government/technocracy/models/__init__.py",
+		"/Users/ricorodriguez/Desktop/git/open_government/technocracy/__init__.py",
+		"/Users/ricorodriguez/Desktop/git/open_government/technocracy/schemas/base.py",
+		"/Users/ricorodriguez/Desktop/git/open_government/technocracy/schemas/citizen.py",
+		"/Users/ricorodriguez/Desktop/git/open_government/technocracy/api_v1/__init__.py",
+		"/Users/ricorodriguez/Desktop/git/open_government/technocracy/api_v1/citizen.py",
+		"/Users/ricorodriguez/Desktop/git/open_government/README.md"
+	],
+	"find":
+	{
+		"height": 22.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": false,
+		"use_buffer2": false,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "main.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10003,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								631,
+								654
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python 3/Python3.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "worker.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2484,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								45,
+								45
+							]
+						],
+						"settings":
+						{
+							"open_with_edit": true,
+							"syntax": "Packages/Python 3/Python3.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "top_200K_with_favicon_urls.csv",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2086099,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 351151.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 22.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 60.0
+	},
+	"output.git-commit":
+	{
+		"height": 96.0
+	},
+	"output.git-init":
+	{
+		"height": 120.0
+	},
+	"output.git-push":
+	{
+		"height": 96.0
+	},
+	"output.git-remote":
+	{
+		"height": 96.0
+	},
+	"pinned_build_system": "",
+	"project": "alexa_crawler.sublime-project",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Desktop/git/machine_learning/.git/config"
+			],
+			[
+				"csv",
+				"python-cookbook/src/6/reading_and_writing_csv_data/stocks.csv"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 346.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

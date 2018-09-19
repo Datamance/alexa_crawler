@@ -15,9 +15,10 @@ uvloop = "*"
 
 [dev-packages]
 white = "*"
-black = "*"
 "autopep8" = "*"
 importanize = "*"
+"flake8" = "*"
+black = "*"
 
 [requires]
 python_version = "3.7"

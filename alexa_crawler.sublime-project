@@ -1,0 +1,41 @@
+{
+	"build_systems":
+	[
+		{
+			"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+			"name": "Anaconda Python Builder",
+			"selector": "source.python",
+			"shell_cmd": "\"/Users/ricorodriguez/.local/share/virtualenvs/alexa_crawler-BacWVZKF/bin/python\" -u \"$file\""
+		}
+	],
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+	"settings":
+	{
+		"anaconda_linting": true,
+		"anaconda_linting_behaviour": "always",
+		"pep257": false,
+		"python_interpreter": "/Users/ricorodriguez/.local/share/virtualenvs/alexa_crawler-BacWVZKF/bin/python",
+		"test_command": "python -m unittest discover",
+		"use_pylint": false,
+		"validate_imports": true,
+		"sublack.black_on_save": true,
+        "SublimeLinter-addon-black-for-flake.enable": true,
+        "sublack.black_line_length": 80,
+        "linters": {
+            "flake8": {
+	            "args": [
+	                "--max-line-length=80",
+	                "--ignore=E201,E221,E222,E241,E722,W191,W291,W292,W293,W503,D1,D211,D413,D"
+	            ],
+            }
+        },
+        "pep8_ignore": [
+		    "W503"
+		],
+	}
+}

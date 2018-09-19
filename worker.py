@@ -1,71 +1,31 @@
-#!/usr/bin/env python3
-"""Alexa Crawler.
-
-scrapes the first 200K domains of the Alexa top million domains, finds their
-favicon URL, and saves the results in a csv. The result csv should contain the
-domain, its Alexa rank, and the full URL path to the favicon.
+"""Worker module.
 """
-
-__author__ = "Rico Rodriguez"
-
+import aiohttp
 import asyncio
-import csv
-import io
-import itertools
+import json
 import logging
 import os
-import zipfile
+import sys
 
 from logging.config import fileConfig
+
+from lxml import etree
 from typing import Iterable
 from typing import Tuple
 from urllib.parse import urlparse
 
-import aiohttp
-import requests
 
-from lxml import etree
-
-
-# Set up Logging.
 fileConfig("logging_config.ini")
 logger = logging.getLogger()
 
-# Constants.
-TWO_HUNDRED_THOUSAND = 200 * 1000
-ALEXA_TOP_MILLION_URL = "http://s3.amazonaws.com/alexa-static/top-1m.csv.zip"
-DEFAULT_CSV = "top_200K_with_favicon_urls.csv"
 
-# Initialize now so we don't have to over and over again.
 HTML_PARSER = etree.HTMLParser()
 
-# Løøp, bröther.
-EVENT_LOOP = asyncio.get_event_loop()
-TEN_MINUTE_TIMEOUT = aiohttp.ClientTimeout(600)
-THREE_MINUTE_TIMEOUT = aiohttp.ClientTimeout(180)
 ONE_MINUTE_TIMEOUT = aiohttp.ClientTimeout(60)
-THIRTY_SECONDS_TIMEOUT = aiohttp.ClientTimeout(30)
 TEN_SECONDS_TIMEOUT = aiohttp.ClientTimeout(10)
 
-# Set up Queues.
-WORK_QUEUE = asyncio.Queue(loop=EVENT_LOOP)
-CSV_WRITER_QUEUE = asyncio.Queue(loop=EVENT_LOOP)
-
-
-def get_ranks_and_domains(total_number):
-    """Synchronously prepare the data."""
-    # Consideration - if this were a much larger file, we might opt to stream
-    # instead and use iter_content() and a zlib decompressor to iteratively
-    # decompress and read out the file.
-    print("starting download...")
-    content = requests.get(ALEXA_TOP_MILLION_URL).content
-
-    with zipfile.ZipFile(io.BytesIO(content), "r") as zipped:
-        print("unpacking zipfile...")
-        text_as_bytes = zipped.read("top-1m.csv")
-
-    pairs = text_as_bytes.split(b"\n")[:total_number]
-    return [pair.decode("utf-8").split(",") for pair in pairs]
+EVENT_LOOP = asyncio.get_event_loop()
+STDOUT_WRITER_QUEUE = asyncio.Queue(loop=EVENT_LOOP)
 
 
 def get_favicon(html, url):
@@ -179,7 +139,7 @@ async def _try_get_favicon(
                 return None
 
 
-async def write_to_csv(csv_writer):
+async def write_to_stdout():
     """Chained coroutine, writes rows from out of queue.
 
     Args:
@@ -189,13 +149,13 @@ async def write_to_csv(csv_writer):
         Writes a completed row to a CSV.
     """
     while True:
-        row = await CSV_WRITER_QUEUE.get()
+        row = await STDOUT_WRITER_QUEUE.get()
         if row is None:
             break
         else:
             logger.info(f"Success for {row}")
-            csv_writer.writerow(row)
-            CSV_WRITER_QUEUE.task_done()  # Be polite.
+            sys.stdout.write(json.dumps(row))
+            STDOUT_WRITER_QUEUE.task_done()  # Be polite.
 
 
 async def get_row(
@@ -204,7 +164,7 @@ async def get_row(
     rank: str,
     domain: str,
 ):
-    """Coroutine/Task that puts successful attempts into the CSV_WRITER_QUEUE.
+    """Coroutine/Task that puts successful attempts into the STDOUT_WRITER_QUEUE.
 
     Args:
         semaphore: asyncio.Semaphore. Lock used to control connection pool.
@@ -225,7 +185,7 @@ async def get_row(
         favicon_url = None
 
     if favicon_url:  # Success.
-        await CSV_WRITER_QUEUE.put((url, rank, favicon_url))
+        await STDOUT_WRITER_QUEUE.put((url, rank, favicon_url))
         return None
 
     # Otherwise, we have to dive into the HTML.
@@ -245,10 +205,10 @@ async def get_row(
         logger.debug(f"No favicon found for {url}.")
         return None  # Failure.
 
-    await CSV_WRITER_QUEUE.put((url, rank, favicon_url))  # Success.
+    await STDOUT_WRITER_QUEUE.put((url, rank, favicon_url))  # Success.
 
 
-async def consume(chunked_pairs: Iterable[Iterable[Tuple[str, str]]]):
+async def consume(pairs: Iterable[Tuple[str, str]]):
     """Consumes pairs of ranks and domains.
 
     Args:
@@ -262,76 +222,43 @@ async def consume(chunked_pairs: Iterable[Iterable[Tuple[str, str]]]):
     # TODO(rico): Figure out why these get finicky when put into global scope?
     semaphore = asyncio.Semaphore(75)
 
-    for pairs in chunked_pairs:
-        async with aiohttp.ClientSession(
-            loop=EVENT_LOOP, connector=aiohttp.TCPConnector(limit=100)
-        ) as session:
-            await asyncio.gather(
-                *[get_row(semaphore, session, *pair) for pair in pairs]
-            )
+    async with aiohttp.ClientSession(
+        loop=EVENT_LOOP, connector=aiohttp.TCPConnector(limit=100)
+    ) as session:
+        await asyncio.gather(
+            *[get_row(semaphore, session, *pair) for pair in pairs]
+        )
 
-    await CSV_WRITER_QUEUE.put(None)
-    CSV_WRITER_QUEUE.task_done()
-
-    return 0
+    await STDOUT_WRITER_QUEUE.put(None)
+    STDOUT_WRITER_QUEUE.task_done()
 
 
-def chunked(iterable: Iterable, chunk_size: int = 100 * 1000):
-    """Generator to get things chunked.
+def main(worker_number: int, pairs: list):
+    """Main execution context.
 
     Args:
-        iterable: Iterable. Stuff that we wanna chunk up.
-
-    Yields:
-        An iterable.
-    """
-    to_chunk = iter(iterable)
-
-    while True:
-        chunk = tuple(itertools.islice(to_chunk, chunk_size))
-        if chunk:
-            yield chunk
-        else:
-            return []
-
-
-def main(
-    csv_file_path: str = DEFAULT_CSV, total_number: int = TWO_HUNDRED_THOUSAND
-):
-    """Main execution context, controls event loop.
-
-    Args:
-        csv_file_path: String. The file path to write to.
-        total_number: Integer. The total number of domains to process.
+        worker_number: The number of this worker.
+        pairs: From json.loads.
 
     Side Effects:
-        Runs a loop.
+        Controls the event loop.
     """
-    # 1) Set up CSV file.
-    csv_file = open(csv_file_path, "w", 1000)
-    csv_writer = csv.writer(csv_file)
-    csv_writer.writerow(("domain", "rank", "favicon_url"))
-
-    # 2) Get work chunked up,
-    pairs = get_ranks_and_domains(total_number)
-
-    # 3) Run Event Loop.
     try:
-        EVENT_LOOP.create_task(write_to_csv(csv_writer))
-        EVENT_LOOP.run_until_complete(consume(chunked(pairs)))
+        EVENT_LOOP.create_task(write_to_stdout())
+        EVENT_LOOP.run_until_complete(consume(pairs))
     except Exception as e:
         # Note: I would never do bare exception handling in a real application,
         # This is just so we can see what this quick-and-dirty script does.
-        CSV_WRITER_QUEUE.put_nowait(None)
+        STDOUT_WRITER_QUEUE.put_nowait(None)
         logger.error(f"***FATAL ERROR***: {e}")
         asyncio.gather(*asyncio.Task.all_tasks()).cancel()
     finally:
         # Shutting down and closing file descriptors after interrupt
-        csv_file.close()
         EVENT_LOOP.run_until_complete(EVENT_LOOP.shutdown_asyncgens())
         EVENT_LOOP.stop()
         EVENT_LOOP.close()
 
 
 if __name__ == "__main__":
-    main()
+    payload = json.load(sys.stdin)
+    main(0, payload)
